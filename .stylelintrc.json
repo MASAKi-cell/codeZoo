@@ -1,0 +1,19 @@
+{
+  "extends": ["stylelint-config-recess-order", "stylelint-config-standard"],
+  "customSyntax": "postcss-scss",
+  "overrides": [
+    {
+      "files": ["**/*.{ts,jsx,tsx}"],
+      "customSyntax": "@stylelint/postcss-css-in-js"
+    }
+  ],
+  "rules": {
+    "string-no-newline": true,
+    "property-no-unknown": true,
+    "declaration-block-no-duplicate-properties": true,
+    "block-no-empty": true,
+    "no-duplicate-selectors": true,
+    "color-no-invalid-hex": true,
+    "declaration-empty-line-before": "never"
+  }
+}
