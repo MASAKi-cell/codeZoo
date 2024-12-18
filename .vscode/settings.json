@@ -15,7 +15,8 @@
     "**/build": true
   },
   "editor.codeActionsOnSave": {
-    "source.fixAll.stylelint": "explicit"
+    "source.fixAll.stylelint": "explicit", // 保存時に自動修正
+    "source.fixAll.eslint": "explicit" // 保存時に自動修正
   },
   "cSpell.words": ["codezoo"]
 }
