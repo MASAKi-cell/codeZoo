@@ -1,0 +1,5 @@
+out
+dist
+webpack.config.js
+.gitignore
+tsconfig.*.json

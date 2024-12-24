@@ -7,7 +7,7 @@ export function activate(context: vscode.ExtensionContext) {
     "codezoo.helloWorld",
     () => {
       vscode.window.showInformationMessage("Hello World from CodeZoo!");
-    }
+    },
   );
 
   context.subscriptions.push(disposable);

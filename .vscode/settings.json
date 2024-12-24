@@ -18,5 +18,5 @@
     "source.fixAll.stylelint": "explicit", // 保存時に自動修正
     "source.fixAll.eslint": "explicit" // 保存時に自動修正
   },
-  "cSpell.words": ["codezoo"]
+  "cSpell.words": ["codezoo", "ianvs", "yarnrc"]
 }
