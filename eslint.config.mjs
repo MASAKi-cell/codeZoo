@@ -1,6 +1,7 @@
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import unusedImports from "eslint-plugin-unused-imports";
+import eslintConfigPrettier from "eslint-config-prettier";
 
 export default [
   {
@@ -11,13 +12,11 @@ export default [
       "unused-imports": unusedImports /** 不要なimport文を削除*/,
       "@typescript-eslint": typescriptEslint,
     },
-
     languageOptions: {
       parser: tsParser,
       ecmaVersion: 2022,
       sourceType: "module",
     },
-
     rules: {
       "no-unused-vars": "off",
       "unused-imports/no-unused-imports": "error",
@@ -46,4 +45,5 @@ export default [
       semi: "warn",
     },
   },
+  eslintConfigPrettier, /** Prettierとの併用 */
 ];
