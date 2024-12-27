@@ -28,7 +28,11 @@
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "format": "prettier --write src",
+    "check-format": "prettier --check src",
+    "check-lint": "eslint . --ext ts --ext tsx --ext js",
+    "stylelint": "stylelint 'src/**/*.{css,scss}' --fix"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.4.0",

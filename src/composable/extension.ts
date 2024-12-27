@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 
-export function activate(context: vscode.ExtensionContext) {
+export function activate(context: vscode.ExtensionContext): void {
   console.log(' "codezoo" is now active!');
 
   const disposable = vscode.commands.registerCommand(
@@ -13,4 +13,4 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(disposable);
 }
 
-export function deactivate() {}
+export function deactivate(): void {}
