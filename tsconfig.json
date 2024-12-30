@@ -7,6 +7,9 @@
 		],
 		"sourceMap": true,
 		"rootDir": "src",
-		"strict": true   /* enable all strict type-checking options */
+		"outDir": "./dist",
+		"strict": true ,
+		"noFallthroughCasesInSwitch": true, // switch文で、caseをbreakやreturnで終えていることを必須
+		"forceConsistentCasingInFileNames": true, // ファイルの文字列の大文字小文字を区別
 	}
 }
