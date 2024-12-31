@@ -11,12 +11,12 @@
   "files.exclude": {
     "**/node_modules": true,
     "**/*.module.scss.d.ts": true,
-    "**/out": true,
+    "**/dist": true,
     "**/build": true
   },
   "editor.codeActionsOnSave": {
     "source.fixAll.stylelint": "explicit", // 保存時に自動修正
     "source.fixAll.eslint": "explicit" // 保存時に自動修正
   },
-  "cSpell.words": ["codezoo", "ianvs", "yarnrc"]
+  "cSpell.words": ["codezoo", "ianvs", "MASA", "yarnrc"]
 }
