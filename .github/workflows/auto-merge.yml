@@ -15,7 +15,10 @@ jobs:
       - uses: actions/checkout@v4
       - id: meta
         uses: dependabot/fetch-metadata@v2
-      - if: ${{ steps.meta.outputs.update-type == 'version-update:semver-patch' }} # patchを自動マージする
+        # patch、Github Actions向けの変更は自動マージする パッチバージョンの変更はバグ修正がメインでソフトウェアが壊れるリスクは低いため。
+      - if: ${{ steps.meta.outputs.update-type == 'version-update:semver-patch' ||
+          (steps.meta.outputs.package-ecosystem == 'github_actions' &&
+          steps.meta.outputs.update-type != 'version-update:server-major') }}
         run: |
           gh pr review "${GITHUB_HEAD_REF}" --approve
           gh pr merge "${GITHUB_HEAD_REF}" --merge --auto
