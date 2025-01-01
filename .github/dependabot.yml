@@ -14,3 +14,8 @@ updates:
       prefix: fix
       prefix-development: chore
       include: scope
+    ignore: # バージョンアップの除外設定
+      - dependency-name: '*'
+        update-types:
+          # メジャーバージョンは除外、本番運用している場合、気軽にupdateできない為
+          - version-update:semver-major

@@ -1,0 +1,21 @@
+name: dependabot auto mage
+on:
+  pull_request:
+    branches: ['main']
+jobs:
+  merge:
+    if: ${{ github.actor == 'dependabot[bot]' }} # Dependabotのプルリクエストのみ許可
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }} # GitHub CLIのクレデンシャル
+    steps:
+      - uses: actions/checkout@v4
+      - id: meta
+        uses: dependabot/fetch-metadata@v2
+      - if: ${{ steps.meta.outputs.update-type == 'version-update:semver-patch' }} # patchを自動マージする
+        run: |
+          gh pr review "${GITHUB_HEAD_REF}" --approve
+          gh pr merge "${GITHUB_HEAD_REF}" --merge --auto
