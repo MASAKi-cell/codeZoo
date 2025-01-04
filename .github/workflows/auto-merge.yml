@@ -6,7 +6,7 @@ jobs:
   merge:
     if: ${{ github.actor == 'dependabot[bot]' }} # Dependabotのプルリクエストのみ許可
     runs-on: ubuntu-latest
-    permissions:
+    permissions: # プルリクエスト・ソースコードの書き込み許可
       contents: write
       pull-requests: write
     env:
