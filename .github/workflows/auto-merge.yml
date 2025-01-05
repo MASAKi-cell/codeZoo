@@ -1,4 +1,5 @@
 name: dependabot auto mage
+
 on:
   pull_request:
     branches: ['main']
