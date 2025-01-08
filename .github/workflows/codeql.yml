@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: ['main']
   schedule:
-    - cron: '40 15 * * 5'
+    - cron: '40 15 * * 5' # 毎週金曜日のAM 15:45に実行
 
 jobs:
   analyze:
