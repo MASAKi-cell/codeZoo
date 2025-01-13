@@ -1,0 +1,11 @@
+# ラベル付与の自動化
+feature:
+  - head-branch: ['^feat']
+bug:
+  - head-branch: ['^fix']
+chore:
+  - head-branch: ['^chore']
+refactor:
+  - head-branch: ['^refactor']
+document:
+  - head-branch: ['^doc']
