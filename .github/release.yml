@@ -1,0 +1,20 @@
+changelog:
+  categories:
+    - title: Enhancement
+      labels:
+        - enhancement
+    - title: New Features
+      labels:
+        - 'feature'
+    - title: Hot Fixes
+      labels:
+        - 'hotfix'
+    - title: Bug Fixes
+      labels:
+        - bug
+        - fixes
+  exclude:
+    labels: # 除外するラベル
+      - dependencies
+    authors: # 除外するプルリクエスト作成者
+      - dependabot
