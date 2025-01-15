@@ -8,6 +8,10 @@ on:
 jobs:
   release:
     runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [22]
     env:
       VERSION: ${{ github.ref_name }}
     permissions: # リポジトリ内容の書き込み権限を付与
