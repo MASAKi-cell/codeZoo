@@ -1,0 +1,40 @@
+# リリースワークフリー
+name: Release
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+' # 例）v1.2.3のGitタグがプッシュされたら起動
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+    env:
+      VERSION: ${{ github.ref_name }}
+    permissions: # リポジトリ内容の書き込み権限を付与
+      contents: write
+    steps:
+      - name: Checkout repository 🛎
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js environment 🏗
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      # 依存関係のインストール
+      - name: Install dependencies 💾
+        run: npm ci
+
+      # リリース対象アプリケーションのビルド
+      - name: Build application 🛠
+        run: |
+          npm run build -ldflags "-X main.version=${VERSION}" \
+            -o "${RUNNER_TEMP}/example" go/example/main.go
+
+      # リリースノートの作成とアセットのアップロード
+      - name: Create GitHub release and upload assets 🚀
+        run: |
+          gh release create "${VERSION}" --title "${VERSION}" --generate-notes
+          gh release upload "${VERSION}" "${RUNNER_TEMP}/example"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
