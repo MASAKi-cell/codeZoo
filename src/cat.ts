@@ -1,10 +1,11 @@
+import { CAT_STATUS } from './config/constants'
 import { catState } from './store/catState'
-import { CAT_STATUS, UI_CAT_STATUS } from './types/types'
+import { cat_status, cat_status_ui } from './types/cat_type'
 
 export class cat {
-  private state: CAT_STATUS
+  private state: cat_status
   private stateManager: catState
-  private defaultState: CAT_STATUS = {
+  private defaultState: cat_status = {
     stage: 0,
     affection: 0,
     energy: 100,
@@ -16,7 +17,7 @@ export class cat {
 
   constructor(stateManager: catState) {
     this.stateManager = stateManager
-    const savedState = this.stateManager.getCatState<CAT_STATUS>()
+    const savedState = this.stateManager.getCatState<cat_status>()
     this.state = savedState ? { ...this.defaultState, ...savedState } : this.defaultState
   }
 
@@ -28,21 +29,58 @@ export class cat {
     // 時間経過によるエネルギーと満腹度の減少
     if (hoursPassed > 0) {
       this.state.energy = Math.max(0, this.state.energy - hoursPassed * 5)
-      this.state.hunger = Math.max(0, this.state.hunger - hoursPassed * 10)
+      this.state.satietyLevel = Math.max(0, this.state.satietyLevel - hoursPassed * 10)
       this.state.lastInteraction = now.toISOString()
       this.saveState()
     }
 
     // 成長段階の更新
     const daysSinceCreation =
-      (now.getTime() - new Date(this.state.creationDate).getTime()) / (1000 * 60 * 60 * 24)
-    if (daysSinceCreation >= 14 && this.state.stage < 2) {
-      this.state.stage = 2 // 2週間後に成猫に
+      (now.getTime() - new Date(this.state.create_at).getTime()) / (1000 * 60 * 60 * 24)
+    if (daysSinceCreation >= 14 && this.state.stage < CAT_STATUS.GROWTH) {
+      this.state.stage = CAT_STATUS.GROWTH // 2週間後に成猫に
       this.saveState()
-    } else if (daysSinceCreation >= 7 && this.state.stage < 1) {
-      this.state.stage = 1 // 1週間後に成長途中に
+    } else if (daysSinceCreation >= 7 && this.state.stage < CAT_STATUS.YOUNG) {
+      this.state.stage = CAT_STATUS.YOUNG // 1週間後に成長途中に
       this.saveState()
     }
+  }
+
+  private increaseAffection(amount: number): void {
+    this.state.affection = Math.min(100, this.state.affection + amount)
+
+    // 好感度に応じたメッセージやイベントをここに追加可能
+    this.saveState()
+  }
+
+  private decreaseAffection(amount: number): void {
+    this.state.affection = Math.max(0, this.state.affection - amount)
+    this.saveState()
+  }
+
+  private saveState(): void {
+    this.stateManager.setState<cat_status>(this.state)
+  }
+
+  private getStageName(): string {
+    const stageNames = ['子猫', '若猫', '成猫']
+    return stageNames[this.state.stage]
+  }
+
+  private getAffectionLevel(): string {
+    if (this.state.affection >= 80) return 'とても懐いている'
+    if (this.state.affection >= 50) return '懐いている'
+    if (this.state.affection >= 20) return '少し懐いている'
+    return '懐いていない'
+  }
+
+  private getCatImageUrl(): string {
+    if (this.state.isSleeping) {
+      return 'cat-sleep.png'
+    }
+
+    const stageImages = ['cat-baby.png', 'cat-teen.png', 'cat-adult.png']
+    return stageImages[this.state.stage]
   }
 
   public updateTimeState(isNight: boolean): boolean {
@@ -73,7 +111,7 @@ export class cat {
       return false // 寝ている間は餌をあげられない
     }
 
-    this.state.hunger = Math.min(100, this.state.hunger + amount)
+    this.state.satietyLevel = Math.min(100, this.state.satietyLevel + amount)
     this.increaseAffection(2) // 餌をあげると少し好感度が上がる
     this.state.lastInteraction = new Date().toISOString()
     this.saveState()
@@ -87,25 +125,13 @@ export class cat {
 
     this.state.energy = Math.max(0, this.state.energy - amount)
     this.increaseAffection(5) // 遊ぶと好感度が上がる
-    this.state.hunger = Math.max(0, this.state.hunger - amount / 3) // 遊ぶとお腹が空く
+    this.state.satietyLevel = Math.max(0, this.state.satietyLevel - amount / 3) // 遊ぶとお腹が空く
     this.state.lastInteraction = new Date().toISOString()
     this.saveState()
     return true
   }
 
-  private increaseAffection(amount: number): void {
-    this.state.affection = Math.min(100, this.state.affection + amount)
-
-    // 好感度に応じたメッセージやイベントをここに追加可能
-    this.saveState()
-  }
-
-  private decreaseAffection(amount: number): void {
-    this.state.affection = Math.max(0, this.state.affection - amount)
-    this.saveState()
-  }
-
-  public getState(): UI_CAT_STATUS {
+  public getState(): cat_status_ui {
     return {
       ...this.state,
       // UIに表示するための追加プロパティ
@@ -113,30 +139,5 @@ export class cat {
       affectionLevel: this.getAffectionLevel(),
       imageUrl: this.getCatImageUrl()
     }
-  }
-
-  private saveState(): void {
-    this.stateManager.setState<CAT_STATUS>(this.state)
-  }
-
-  private getStageName(): string {
-    const stageNames = ['子猫', '若猫', '成猫']
-    return stageNames[this.state.stage]
-  }
-
-  private getAffectionLevel(): string {
-    if (this.state.affection >= 80) return 'とても懐いている'
-    if (this.state.affection >= 50) return '懐いている'
-    if (this.state.affection >= 20) return '少し懐いている'
-    return '懐いていない'
-  }
-
-  private getCatImageUrl(): string {
-    if (this.state.isSleeping) {
-      return 'cat-sleep.png'
-    }
-
-    const stageImages = ['cat-baby.png', 'cat-teen.png', 'cat-adult.png']
-    return stageImages[this.state.stage]
   }
 }
