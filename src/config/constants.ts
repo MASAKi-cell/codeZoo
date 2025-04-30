@@ -5,3 +5,7 @@ export const CAT_STATUS = {
   GROWTH: 2,
   ADULT: 3
 }
+
+export const MESSAGE = {
+  ACTIVATE: '"codezoo" is now active!'
+}

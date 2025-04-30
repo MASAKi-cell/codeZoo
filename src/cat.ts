@@ -1,10 +1,10 @@
 import { CAT_STATUS } from './config/constants'
-import { catState } from './store/catState'
+import { CatState } from './store/catState'
 import { cat_status, cat_status_ui } from './types/cat_type'
 
-export class cat {
+export class Cat {
   private state: cat_status
-  private stateManager: catState
+  private stateManager: CatState
   private defaultState: cat_status = {
     stage: 0,
     affection: 0,
@@ -15,7 +15,7 @@ export class cat {
     create_at: new Date().toISOString()
   }
 
-  constructor(stateManager: catState) {
+  constructor(stateManager: CatState) {
     this.stateManager = stateManager
     const savedState = this.stateManager.getCatState<cat_status>()
     this.state = savedState ? { ...this.defaultState, ...savedState } : this.defaultState
@@ -44,13 +44,6 @@ export class cat {
       this.state.stage = CAT_STATUS.YOUNG // 1週間後に成長途中に
       this.saveState()
     }
-  }
-
-  private increaseAffection(amount: number): void {
-    this.state.affection = Math.min(100, this.state.affection + amount)
-
-    // 好感度に応じたメッセージやイベントをここに追加可能
-    this.saveState()
   }
 
   private decreaseAffection(amount: number): void {
@@ -129,6 +122,13 @@ export class cat {
     this.state.lastInteraction = new Date().toISOString()
     this.saveState()
     return true
+  }
+
+  public increaseAffection(amount: number): void {
+    this.state.affection = Math.min(100, this.state.affection + amount)
+
+    // 好感度に応じたメッセージやイベントをここに追加可能
+    this.saveState()
   }
 
   public getState(): cat_status_ui {

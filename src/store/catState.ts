@@ -2,7 +2,7 @@ import * as vscode from 'vscode'
 /** config */
 import { CAT_STATE_KEY } from '../config/constants'
 
-export class catState {
+export class CatState {
   private globalState: vscode.Memento
   private stateKey: string
   constructor(globalState: vscode.Memento) {
