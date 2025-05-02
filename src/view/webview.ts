@@ -63,19 +63,19 @@ export const createWebviewPanel = (
   return panel
 }
 
-function updateWebview(
+const updateWebview = (
   panel: vscode.WebviewPanel,
   cat: Cat,
   getResourceUri: (fileName: string) => vscode.Uri
-): void {
+): void => {
   const catState = cat.getState()
   panel.webview.html = getWebviewContent(catState, getResourceUri)
 }
 
-function getWebviewContent(
+const getWebviewContent = (
   catState: UICatState,
   getResourceUri: (fileName: string) => vscode.Uri
-): string {
+): string => {
   const catImage = getResourceUri(catState.imageUrl)
 
   return `<!DOCTYPE html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodeZoo</title>
+    <link rel="stylesheet" href="{{styleUri}}" />
+  </head>
+  <body>
+    <div class="container">
+        <h1>CodeZoo - あなたの猫</h1>
+        <div class="info">
+            <p>成長段階: ${catState.stageName}</p>
+            <p>親密度: ${catState.affectionLevel}</p>
+            <p>${catState.isSleeping ? '💤 寝ています' : '😺 起きています'}</p>
+        </div>
+        <img src="${catImage}" alt="Cat" class="cat-image" />
+        <div class="status">
+            <div class="status-item">
+                <div>満腹度</div>
+                <div class="status-bar">
+                    <div class="status-bar-fill hunger-bar-fill" style="width: ${catState.hunger}%;"></div>
+                </div>
+            </div>
+            <div class="status-item">
+                <div>エネルギー</div>
+                <div class="status-bar">
+                    <div class="status-bar-fill energy-bar-fill" style="width: ${catState.energy}%;"></div>
+                </div>
+            </div>
+            <div class="status-item">
+                <div>好感度</div>
+                <div class="status-bar">
+                    <div class="status-bar-fill affection-bar-fill" style="width: ${catState.affection}%;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <button id="feedButton" ${catState.isSleeping ? 'disabled' : ''}>餌をあげる</button>
+            <button id="playButton" ${catState.isSleeping || catState.energy < 10 ? 'disabled' : ''}>遊ぶ</button>
+            ${catState.isSleeping ? '<button id="wakeButton">起こす</button>' : ''}
+        </div>
+    </div>
+    <script>
+        const vscode = acquireVsCodeApi();
+        document.getElementById('feedButton').addEventListener('click', () => {
+            vscode.postMessage({
+                command: 'feed'
+            });
+        });
+        document.getElementById('playButton').addEventListener('click', () => {
+            vscode.postMessage({
+                command: 'play'
+            });
+        });
+        ${
+          catState.isSleeping
+            ? `
+        document.getElementById('wakeButton').addEventListener('click', () => {
+            vscode.postMessage({
+                command: 'wake'
+            });
+        });
+        `
+            : ''
+        }
+    </script>
+</body>
+</html>
