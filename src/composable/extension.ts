@@ -2,6 +2,7 @@ import * as vscode from 'vscode'
 import { Cat } from '../cat'
 import { MESSAGE } from '../config/constants'
 import { CatState } from '../store/catState'
+import { createWebviewPanel } from '../view/webview'
 
 export function activate(context: vscode.ExtensionContext): void {
   console.log(MESSAGE.ACTIVATE)
