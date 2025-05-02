@@ -40,8 +40,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
   // タイマーの設定（1分ごとに実行）
   setInterval(() => {
-    const now = new Date()
-    const hour = now.getHours()
+    const hour = new Date().getHours()
 
     // 夜間判定（22時〜6時）
     const isNight = hour >= 22 || hour < 6
@@ -52,7 +51,7 @@ export function activate(context: vscode.ExtensionContext): void {
     }
   }, 60000)
 
-  // コミットイベントのリスナー
+  // コミットイベントのwatch
   const gitExtension = vscode.extensions.getExtension('vscode.git')?.exports
   if (gitExtension) {
     const git = gitExtension.getAPI(1)
@@ -71,7 +70,7 @@ export function activate(context: vscode.ExtensionContext): void {
     // 一定時間（例：30分）作業を続けるとご褒美
     if (now.getTime() - lastActivity.getTime() > 30 * 60 * 1000) {
       cat.increaseAffection(5)
-      vscode.window.showInformationMessage('30分作業を続けました！猫の好感度が上がりました！')
+      vscode.window.showInformationMessage(MESSAGE.WORK_COMMIT)
       if (panel) {
         updateWebview(panel, cat)
       }
@@ -89,9 +88,8 @@ export function activate(context: vscode.ExtensionContext): void {
   const checkForCommits = async (git: any, cat: Cat) => {
     const repositories = git.repositories
     if (repositories.length > 0) {
-      const repo = repositories[0]
       cat.feedCat(10)
-      vscode.window.showInformationMessage('コミットを検出しました！猫にご褒美をあげました！')
+      vscode.window.showInformationMessage(MESSAGE.FEED_COMMIT)
     }
   }
 

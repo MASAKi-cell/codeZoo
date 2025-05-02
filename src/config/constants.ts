@@ -7,5 +7,7 @@ export const CAT_STATUS = {
 }
 
 export const MESSAGE = {
-  ACTIVATE: '"codezoo" is now active!'
+  ACTIVATE: '"codezoo" is now active!',
+  FEED_COMMIT: 'コミットを検出しました！猫にご褒美をあげました！',
+  WORK_COMMIT: '30分作業を続けました！猫の好感度が上がりました！'
 }

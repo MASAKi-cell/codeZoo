@@ -100,10 +100,6 @@ export class Cat {
   }
 
   public feedCat(amount: number = 10): boolean {
-    if (this.state.isSleeping) {
-      return false // 寝ている間は餌をあげられない
-    }
-
     this.state.satietyLevel = Math.min(100, this.state.satietyLevel + amount)
     this.increaseAffection(2) // 餌をあげると少し好感度が上がる
     this.state.lastInteraction = new Date().toISOString()
