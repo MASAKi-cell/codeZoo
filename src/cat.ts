@@ -8,7 +8,6 @@ export class Cat {
   private defaultState: cat_status = {
     stage: 0,
     affection: 0,
-    energy: 100,
     satietyLevel: 100,
     isSleeping: false,
     lastInteraction: new Date().toISOString(),
@@ -28,7 +27,6 @@ export class Cat {
 
     // 時間経過によるエネルギーと満腹度の減少
     if (hoursPassed > 0) {
-      this.state.energy = Math.max(0, this.state.energy - hoursPassed * 5)
       this.state.satietyLevel = Math.max(0, this.state.satietyLevel - hoursPassed * 10)
       this.state.lastInteraction = now.toISOString()
       this.saveState()
@@ -108,11 +106,10 @@ export class Cat {
   }
 
   public playCat(amount: number = 15): boolean {
-    if (this.state.isSleeping || this.state.energy < 10) {
+    if (this.state.isSleeping) {
       return false // 寝ている間や疲れている時は遊べない
     }
 
-    this.state.energy = Math.max(0, this.state.energy - amount)
     this.increaseAffection(5) // 遊ぶと好感度が上がる
     this.state.satietyLevel = Math.max(0, this.state.satietyLevel - amount / 3) // 遊ぶとお腹が空く
     this.state.lastInteraction = new Date().toISOString()

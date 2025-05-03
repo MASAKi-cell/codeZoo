@@ -131,9 +131,6 @@ const getWebviewContent = (
             .hunger-bar-fill {
                 background-color: #4CAF50;
             }
-            .energy-bar-fill {
-                background-color: #2196F3;
-            }
             .affection-bar-fill {
                 background-color: #FF4081;
             }
@@ -183,12 +180,6 @@ const getWebviewContent = (
                     </div>
                 </div>
                 <div class="status-item">
-                    <div>エネルギー</div>
-                    <div class="status-bar">
-                        <div class="status-bar-fill energy-bar-fill" style="width: ${catState.energy}%;"></div>
-                    </div>
-                </div>
-                <div class="status-item">
                     <div>好感度</div>
                     <div class="status-bar">
                         <div class="status-bar-fill affection-bar-fill" style="width: ${catState.affection}%;"></div>
@@ -197,7 +188,7 @@ const getWebviewContent = (
             </div>
             <div class="actions">
                 <button id="feedButton" ${catState.isSleeping ? 'disabled' : ''}>餌をあげる</button>
-                <button id="playButton" ${catState.isSleeping || catState.energy < 10 ? 'disabled' : ''}>遊ぶ</button>
+                <button id="playButton" ${catState.isSleeping ? 'disabled' : ''}>遊ぶ</button>
                 ${catState.isSleeping ? '<button id="wakeButton">起こす</button>' : ''}
             </div>
         </div>

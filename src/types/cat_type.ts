@@ -5,8 +5,7 @@ import { CAT_STATUS } from '../config/constants'
 export interface cat_status {
   stage: (typeof CAT_STATUS)[keyof typeof CAT_STATUS] // 1:幼少期, 2:成長期, 3:成熟期
   affection: number // 好感度
-  energy: number // エネルギー
-  satietyLevel: number // 満腹度
+  satietyLevel: number // ステータスレベル
   isSleeping: boolean // 寝ているかどうか
   lastInteraction: string // 最後の交流
   create_at: string // 作成日
