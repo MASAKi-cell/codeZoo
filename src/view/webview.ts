@@ -1,7 +1,8 @@
 // webview/view.ts
 import * as path from 'path'
 import * as vscode from 'vscode'
-import { Cat, UICatState } from '../cat'
+import { Cat } from '../cat'
+import { cat_status_ui } from '../types/cat_type'
 
 export const createWebviewPanel = (
   context: vscode.ExtensionContext,
@@ -73,7 +74,7 @@ const updateWebview = (
 }
 
 const getWebviewContent = (
-  catState: UICatState,
+  catState: cat_status_ui,
   getResourceUri: (fileName: string) => vscode.Uri
 ): string => {
   const catImage = getResourceUri(catState.imageUrl)
@@ -173,12 +174,6 @@ const getWebviewContent = (
             </div>
             <img src="${catImage}" alt="Cat" class="cat-image" />
             <div class="status">
-                <div class="status-item">
-                    <div>満腹度</div>
-                    <div class="status-bar">
-                        <div class="status-bar-fill hunger-bar-fill" style="width: ${catState.hunger}%;"></div>
-                    </div>
-                </div>
                 <div class="status-item">
                     <div>好感度</div>
                     <div class="status-bar">

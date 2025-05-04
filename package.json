@@ -1,7 +1,7 @@
 {
   "name": "codezoo",
   "displayName": "CodeZoo",
-  "description": "",
+  "description": "VSCode内で猫を育成する拡張機能",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.95.0"
@@ -14,10 +14,14 @@
   "contributes": {
     "commands": [
       {
-        "command": "codezoo.helloWorld",
-        "title": "Hello World"
+        "command": "codezoo.show",
+        "title": "CodeZoo: 猫を見る"
       }
     ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MASAKi-cell/codeZoo"
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
