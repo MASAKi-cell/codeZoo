@@ -11,3 +11,9 @@ export const MESSAGE = {
   FEED_COMMIT: 'コミットを検出しました！猫にご褒美をあげました！',
   WORK_COMMIT: '30分作業を続けました！猫の好感度が上がりました！'
 }
+
+export const COMMAND = {
+  FEED: 'feed',
+  PLAY: 'play',
+  WAKE: 'wake'
+}

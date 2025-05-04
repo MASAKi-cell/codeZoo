@@ -2,6 +2,7 @@
 import * as path from 'path'
 import * as vscode from 'vscode'
 import { Cat } from '../cat'
+import { COMMAND } from '../config/constants'
 import { cat_status_ui } from '../types/cat_type'
 
 export const createWebviewPanel = (
@@ -14,7 +15,7 @@ export const createWebviewPanel = (
     localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath, 'resources'))]
   })
 
-  // リソースへのパスを取得する関数
+  // パスを取得する関数
   const getResourceUri = (fileName: string): vscode.Uri => {
     const resourcePath = path.join(context.extensionPath, 'resources', fileName)
     return panel.webview.asWebviewUri(vscode.Uri.file(resourcePath))
@@ -26,32 +27,44 @@ export const createWebviewPanel = (
   // Webviewの内容を設定
   panel.webview.html = getWebviewContent(catState, getResourceUri)
 
-  // Webviewからのメッセージを処理
+  // メッセージを表示
+  makeReceiveMessage(context, panel, cat, getResourceUri)
+
+  return panel
+}
+
+/** メッセージ処理 */
+const makeReceiveMessage = (
+  context: vscode.ExtensionContext,
+  panel: vscode.WebviewPanel,
+  cat: Cat,
+  getResourceUri: (fileName: string) => vscode.Uri
+) => {
   panel.webview.onDidReceiveMessage(
     (message: { command: string }) => {
       switch (message.command) {
-        case 'feed':
+        case COMMAND.FEED:
           const fedSuccess = cat.feedCat()
           if (fedSuccess) {
-            vscode.window.showInformationMessage('猫に餌をあげました！')
+            vscode.window.showInformationMessage('You fed the cat!')
           } else {
-            vscode.window.showInformationMessage('猫は今餌を食べられません')
+            vscode.window.showInformationMessage('The cat cannot eat right now.')
           }
           updateWebview(panel, cat, getResourceUri)
           break
-        case 'play':
+        case COMMAND.PLAY:
           const playSuccess = cat.playCat()
           if (playSuccess) {
-            vscode.window.showInformationMessage('猫と遊びました！')
+            vscode.window.showInformationMessage('You played with the cat!')
           } else {
-            vscode.window.showInformationMessage('猫は今遊べる状態ではありません')
+            vscode.window.showInformationMessage('The cat is not in the mood to play.')
           }
           updateWebview(panel, cat, getResourceUri)
           break
-        case 'wake':
+        case COMMAND.WAKE:
           const wakeSuccess = cat.wakeUp()
           if (wakeSuccess) {
-            vscode.window.showWarningMessage('猫を起こしました。好感度が下がりました。')
+            vscode.window.showWarningMessage('You woke up the cat. Its affection level decreased.')
           }
           updateWebview(panel, cat, getResourceUri)
           break
@@ -60,10 +73,9 @@ export const createWebviewPanel = (
     undefined,
     context.subscriptions
   )
-
-  return panel
 }
 
+/** Viewの表示を変更 */
 const updateWebview = (
   panel: vscode.WebviewPanel,
   cat: Cat,
