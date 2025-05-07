@@ -9,7 +9,7 @@ export const createWebviewPanel = (
   context: vscode.ExtensionContext,
   cat: Cat
 ): vscode.WebviewPanel => {
-  const panel = vscode.window.createWebviewPanel('codezoo', 'CodeZoo', vscode.ViewColumn.Two, {
+  const panel = vscode.window.createWebviewPanel('codezoo', '🐱 CodeZoo', vscode.ViewColumn.Three, {
     enableScripts: true,
     retainContextWhenHidden: true,
     localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath, 'resources'))]
@@ -75,7 +75,7 @@ const makeReceiveMessage = (
   )
 }
 
-/** Viewの表示を変更 */
+/** Viewの表示 */
 const updateWebview = (
   panel: vscode.WebviewPanel,
   cat: Cat,

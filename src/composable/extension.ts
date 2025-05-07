@@ -35,8 +35,8 @@ export function activate(context: vscode.ExtensionContext): void {
   // ステータスバーアイテムの作成
   const statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100)
   statusBarItem.text = '$(heart) CodeZoo'
-  statusBarItem.command = 'codezoo.show'
-  statusBarItem.tooltip = '猫を見る'
+  statusBarItem.tooltip = 'Open CodeZoo'
+  statusBarItem.command = 'codezoo.openPanel'
   statusBarItem.show()
 
   // タイマーの設定（1分ごとに実行）
